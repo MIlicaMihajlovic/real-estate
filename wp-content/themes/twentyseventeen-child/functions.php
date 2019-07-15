@@ -75,7 +75,7 @@ function create_real_estate() {
 	register_post_type( 'real_estate', $args );
 }
 
-// hook into the init action and call create_book_taxonomies when it fires
+// hook into the init action and call create_real_estate_taxonomies when it fires
 add_action( 'init', 'create_real_estate_taxonomies', 0 );
 
 //Register taxonomies Location and Type
@@ -108,7 +108,7 @@ function create_real_estate_taxonomies() {
             'show_admin_column'     => true,
             'update_count_callback' => '_update_post_term_count',
             'query_var'             => true,
-            'rewrite'               => array( 'slug' => 'location/%location%','with_front' => false ),
+            'rewrite'               => array( 'slug' => 'location','with_front' => false ),
         );
 
         register_taxonomy( 'location', 'real_estate', $args );
@@ -142,40 +142,8 @@ function create_real_estate_taxonomies() {
             'show_admin_column'     => true,
             'update_count_callback' => '_update_post_term_count',
             'query_var'             => true,
-            'rewrite'               => array( 'slug' => 'type/%type%','with_front' => false ),
+            'rewrite'               => array( 'slug' => 'type','with_front' => false ),
         );
     
         register_taxonomy( 'type', 'real_estate', $args );
     }
-
-    if( function_exists('acf_add_local_field_group') ):
-
-        acf_add_local_field_group(array (
-            'key' => 'group_1',
-            'title' => 'My Group',
-            'fields' => array (
-                array (
-                    'key' => 'field_1',
-                    'label' => 'Sub Title',
-                    'name' => 'sub_title',
-                    'type' => 'text',
-                ),
-                array (
-                    'key' => 'field_2',
-                    'label' => 'Image',
-                    'name' => 'image',
-                    'type' => 'image',
-                )
-            ),
-            'location' => array (
-                array (
-                    array (
-                        'param' => 'post_type',
-                        'operator' => '==',
-                        'value' => 'real_estate',
-                    ),
-                ),
-            ),
-        ));
-        
-        endif;
