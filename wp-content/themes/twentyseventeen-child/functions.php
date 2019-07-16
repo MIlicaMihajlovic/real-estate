@@ -154,7 +154,7 @@ function create_real_estate_taxonomies() {
 			return;
 		}
 
-	acf_form_head();
+		acf_form_head();
 	}
 
 	add_action( 'template_redirect', 'real_add_acf_form_headers' );
@@ -165,6 +165,6 @@ function create_real_estate_taxonomies() {
 		if($field['type'] == 'image') {
 			return false;
 		}
-
 	}
-	add_filter('acf/prepare_field/name=image', 'my_acf_prepare_field');
+
+

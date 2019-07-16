@@ -89,7 +89,11 @@
         <!-- Adding form for editing post-->
         <p>Edit your post:
 
-            <?php the_field('my_custom_fields'); ?> </p>
+            <?php
+                the_field('my_custom_fields');
+                //add filter from functions, prevent image field to render
+                add_filter('acf/prepare_field/type=image', 'my_acf_prepare_field');
+            ?> </p>
 
 		<?php acf_form(array (
 		        'post_title' => true
