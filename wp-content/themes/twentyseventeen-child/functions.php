@@ -147,3 +147,24 @@ function create_real_estate_taxonomies() {
     
         register_taxonomy( 'type', 'real_estate', $args );
     }
+
+	//if the singular post display
+    function real_add_acf_form_headers() {
+		if ( ! is_singular( 'real_estate' ) ) {
+			return;
+		}
+
+	acf_form_head();
+	}
+
+	add_action( 'template_redirect', 'real_add_acf_form_headers' );
+
+	//prevent field to be render in page
+	function my_acf_prepare_field($field) {
+		//var_dump($field);
+		if($field['type'] == 'image') {
+			return false;
+		}
+
+	}
+	add_filter('acf/prepare_field/name=image', 'my_acf_prepare_field');

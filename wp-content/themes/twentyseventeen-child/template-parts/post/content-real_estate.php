@@ -9,7 +9,6 @@
  * @since 1.0
  * @version 1.2
  */
-
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -84,6 +83,17 @@
 	        echo '</br>';
 	        echo join(',', $out);
         }
+        ?>
+
+        </br>
+        <!-- Adding form for editing post-->
+        <p>Edit your post:
+
+            <?php the_field('my_custom_fields'); ?> </p>
+
+		<?php acf_form(array (
+		        'post_title' => true
+        ));
 
 
 		/* translators: %s: Name of current post */
