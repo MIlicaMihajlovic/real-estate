@@ -1,30 +1,38 @@
 <?php
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // BEGIN ENQUEUE PARENT ACTION
 // AUTO GENERATED - Do not modify or remove comment markers above or below:
 
-if ( !function_exists( 'chld_thm_cfg_locale_css' ) ):
-    function chld_thm_cfg_locale_css( $uri ){
-        if ( empty( $uri ) && is_rtl() && file_exists( get_template_directory() . '/rtl.css' ) )
-            $uri = get_template_directory_uri() . '/rtl.css';
-        return $uri;
-    }
+if ( ! function_exists( 'chld_thm_cfg_locale_css' ) ):
+	function chld_thm_cfg_locale_css( $uri ) {
+		if ( empty( $uri ) && is_rtl() && file_exists( get_template_directory() . '/rtl.css' ) ) {
+			$uri = get_template_directory_uri() . '/rtl.css';
+		}
+
+		return $uri;
+	}
 endif;
 add_filter( 'locale_stylesheet_uri', 'chld_thm_cfg_locale_css' );
 
-if ( !function_exists( 'chld_thm_cfg_parent_css' ) ):
-    function chld_thm_cfg_parent_css() {
-        wp_enqueue_style( 'chld_thm_cfg_parent', trailingslashit( get_template_directory_uri() ) . 'style.css', array(  ) );
-    }
+if ( ! function_exists( 'chld_thm_cfg_parent_css' ) ):
+	function chld_thm_cfg_parent_css() {
+		wp_enqueue_style( 'chld_thm_cfg_parent', trailingslashit( get_template_directory_uri() ) . 'style.css', array() );
+	}
 endif;
 add_action( 'wp_enqueue_scripts', 'chld_thm_cfg_parent_css', 10 );
-         
-if ( !function_exists( 'child_theme_configurator_css' ) ):
-    function child_theme_configurator_css() {
-        wp_enqueue_style( 'chld_thm_cfg_separate', trailingslashit( get_stylesheet_directory_uri() ) . 'ctc-style.css', array( 'chld_thm_cfg_parent','twentyseventeen-style','twentyseventeen-block-style' ) );
-    }
+
+if ( ! function_exists( 'child_theme_configurator_css' ) ):
+	function child_theme_configurator_css() {
+		wp_enqueue_style( 'chld_thm_cfg_separate', trailingslashit( get_stylesheet_directory_uri() ) . 'ctc-style.css', array(
+			'chld_thm_cfg_parent',
+			'twentyseventeen-style',
+			'twentyseventeen-block-style'
+		) );
+	}
 endif;
 add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 10 );
 
@@ -55,21 +63,21 @@ function create_real_estate() {
 	);
 
 	$args = array(
-        'label'              => __( 'real_estate' ),
+		'label'              => __( 'real_estate' ),
 		'labels'             => $labels,
-        'description'        => __( 'Description.', 'textdomain' ),
-        'public'             => true,
+		'description'        => __( 'Description.', 'textdomain' ),
+		'public'             => true,
 		'publicly_queryable' => true,
 		'show_ui'            => true,
 		'show_in_menu'       => true,
 		'query_var'          => true,
-		'rewrite'            => array( 'slug' => 'estate','with_front' => false ),
+		'rewrite'            => array( 'slug' => 'estate', 'with_front' => false ),
 		'capability_type'    => 'post',
 		'has_archive'        => true,
 		'hierarchical'       => false,
 		'menu_position'      => null,
-        'supports'           => array( 'title', 'image', 'author', 'thumbnail', 'revisions', 'custom-fields' ),
-        'taxonomies'         => array( 'location', 'type' ),
+		'supports'           => array( 'title', 'image', 'author', 'thumbnail', 'revisions', 'custom-fields' ),
+		'taxonomies'         => array( 'location', 'type' ),
 	);
 
 	register_post_type( 'real_estate', $args );
@@ -80,101 +88,125 @@ add_action( 'init', 'create_real_estate_taxonomies', 0 );
 
 //Register taxonomies Location and Type
 function create_real_estate_taxonomies() {
-     
-        // Add new taxonomy Location
-        $labels = array(
-            'name'                       => _x( 'Locations', 'taxonomy general name', 'textdomain' ),
-            'singular_name'              => _x( 'Location', 'taxonomy singular name', 'textdomain' ),
-            'search_items'               => __( 'Search Locations', 'textdomain' ),
-            'popular_items'              => __( 'Popular Locations', 'textdomain' ),
-            'all_items'                  => __( 'All Locations', 'textdomain' ),
-            'parent_item'                => __( 'Parent Type' ),
-            'parent_item_colon'          => __( 'Parent Type:' ),
-            'edit_item'                  => __( 'Edit Location', 'textdomain' ),
-            'update_item'                => __( 'Update Location', 'textdomain' ),
-            'add_new_item'               => __( 'Add New Location', 'textdomain' ),
-            'new_item_name'              => __( 'New Location Name', 'textdomain' ),
-            'separate_items_with_commas' => __( 'Separate locations with commas', 'textdomain' ),
-            'add_or_remove_items'        => __( 'Add or remove locations', 'textdomain' ),
-            'choose_from_most_used'      => __( 'Choose from the most used locations', 'textdomain' ),
-            'not_found'                  => __( 'No locations found.', 'textdomain' ),
-            'menu_name'                  => __( 'Locations', 'textdomain' ),
-        );
-    
-        $args = array(
-            'hierarchical'          => false,
-            'labels'                => $labels,
-            'show_ui'               => true,
-            'show_admin_column'     => true,
-            'update_count_callback' => '_update_post_term_count',
-            'query_var'             => true,
-            'rewrite'               => array( 'slug' => 'location','with_front' => false ),
-        );
 
-        register_taxonomy( 'location', 'real_estate', $args );
-    
-        
-    
-        // Add new taxonomy Type
-        $labels = array(
-            'name'                       => _x( 'Types', 'taxonomy general name', 'textdomain' ),
-            'singular_name'              => _x( 'Type', 'taxonomy singular name', 'textdomain' ),
-            'search_items'               => __( 'Search Types', 'textdomain' ),
-            'popular_items'              => __( 'Popular Types', 'textdomain' ),
-            'all_items'                  => __( 'All Types', 'textdomain' ),
-            'parent_item'                => null,
-            'parent_item_colon'          => null,
-            'edit_item'                  => __( 'Edit Type', 'textdomain' ),
-            'update_item'                => __( 'Update Type', 'textdomain' ),
-            'add_new_item'               => __( 'Add New Type', 'textdomain' ),
-            'new_item_name'              => __( 'New Type Name', 'textdomain' ),
-            'separate_items_with_commas' => __( 'Separate types with commas', 'textdomain' ),
-            'add_or_remove_items'        => __( 'Add or remove types', 'textdomain' ),
-            'choose_from_most_used'      => __( 'Choose from the most used types', 'textdomain' ),
-            'not_found'                  => __( 'No types found.', 'textdomain' ),
-            'menu_name'                  => __( 'Types', 'textdomain' ),
-        );
-    
-        $args = array(
-            'hierarchical'          => false,
-            'labels'                => $labels,
-            'show_ui'               => true,
-            'show_admin_column'     => true,
-            'update_count_callback' => '_update_post_term_count',
-            'query_var'             => true,
-            'rewrite'               => array( 'slug' => 'type','with_front' => false ),
-        );
-    
-        register_taxonomy( 'type', 'real_estate', $args );
-    }
+	// Add new taxonomy Location
+	$labels = array(
+		'name'                       => _x( 'Locations', 'taxonomy general name', 'textdomain' ),
+		'singular_name'              => _x( 'Location', 'taxonomy singular name', 'textdomain' ),
+		'search_items'               => __( 'Search Locations', 'textdomain' ),
+		'popular_items'              => __( 'Popular Locations', 'textdomain' ),
+		'all_items'                  => __( 'All Locations', 'textdomain' ),
+		'parent_item'                => __( 'Parent Type' ),
+		'parent_item_colon'          => __( 'Parent Type:' ),
+		'edit_item'                  => __( 'Edit Location', 'textdomain' ),
+		'update_item'                => __( 'Update Location', 'textdomain' ),
+		'add_new_item'               => __( 'Add New Location', 'textdomain' ),
+		'new_item_name'              => __( 'New Location Name', 'textdomain' ),
+		'separate_items_with_commas' => __( 'Separate locations with commas', 'textdomain' ),
+		'add_or_remove_items'        => __( 'Add or remove locations', 'textdomain' ),
+		'choose_from_most_used'      => __( 'Choose from the most used locations', 'textdomain' ),
+		'not_found'                  => __( 'No locations found.', 'textdomain' ),
+		'menu_name'                  => __( 'Locations', 'textdomain' ),
+	);
 
-	//Check if current has capability
-	function all_acf_prepare_field($field) {
-		if($field['name'] == 'title' && $field['name'] == 'subtitle' && $field['name'] == 'image' ) {
-			return false;
-		}
-		return $field;
-	}
+	$args = array(
+		'hierarchical'          => false,
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'location', 'with_front' => false ),
+	);
 
-	add_filter('acf/prepare_field', 'all_acf_prepare_field');
+	register_taxonomy( 'location', 'real_estate', $args );
 
-	//if the singular post display
-    function real_add_acf_form_headers() {
-		if ( is_singular( 'real_estate' ) ) {
 
-			//add filter from functions, prevent image field to render
-			add_filter('acf/prepare_field/name=image', 'my_acf_prepare_field');
+	// Add new taxonomy Type
+	$labels = array(
+		'name'                       => _x( 'Types', 'taxonomy general name', 'textdomain' ),
+		'singular_name'              => _x( 'Type', 'taxonomy singular name', 'textdomain' ),
+		'search_items'               => __( 'Search Types', 'textdomain' ),
+		'popular_items'              => __( 'Popular Types', 'textdomain' ),
+		'all_items'                  => __( 'All Types', 'textdomain' ),
+		'parent_item'                => null,
+		'parent_item_colon'          => null,
+		'edit_item'                  => __( 'Edit Type', 'textdomain' ),
+		'update_item'                => __( 'Update Type', 'textdomain' ),
+		'add_new_item'               => __( 'Add New Type', 'textdomain' ),
+		'new_item_name'              => __( 'New Type Name', 'textdomain' ),
+		'separate_items_with_commas' => __( 'Separate types with commas', 'textdomain' ),
+		'add_or_remove_items'        => __( 'Add or remove types', 'textdomain' ),
+		'choose_from_most_used'      => __( 'Choose from the most used types', 'textdomain' ),
+		'not_found'                  => __( 'No types found.', 'textdomain' ),
+		'menu_name'                  => __( 'Types', 'textdomain' ),
+	);
 
-			acf_form_head();
-		}
-	}
+	$args = array(
+		'hierarchical'          => false,
+		'labels'                => $labels,
+		'show_ui'               => true,
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'type', 'with_front' => false ),
+	);
 
-	add_action( 'template_redirect', 'real_add_acf_form_headers' );
+	register_taxonomy( 'type', 'real_estate', $args );
+}
 
-	//prevent field to be render in page
-	function my_acf_prepare_field($field) {
+//Check if current has capability
+function all_acf_prepare_field( $field ) {
+	if ( $field['name'] == 'title' && $field['name'] == 'subtitle' && $field['name'] == 'image' ) {
 		return false;
 	}
+
+	return $field;
+}
+
+add_filter( 'acf/prepare_field', 'all_acf_prepare_field' );
+
+//if the singular post display
+function real_add_acf_form_headers() {
+	if ( is_singular( 'real_estate' ) ) {
+
+		//add filter from functions, prevent image field to render
+		add_filter( 'acf/prepare_field/name=image', 'my_acf_prepare_field' );
+
+		acf_form_head();
+	}
+}
+
+add_action( 'template_redirect', 'real_add_acf_form_headers' );
+
+//prevent field to be render in page
+function my_acf_prepare_field( $field ) {
+	return false;
+}
+
+//search only custom post type Real Estate
+function real_search_custom_type( $query ) {
+	//var_dump($query);
+	if ( $query->is_search ) {
+
+//		$s = $query->get( 's' );
+
+		$query->set( 'post_type', 'real_estate' );
+
+//		$meta_query_args = array(
+//			[
+//				'key'      => 'sub_title',
+//				'value'    => $s,
+//				'compare'  => 'LIKE'
+//			]
+//		);
+//
+//
+//		$query->set( 'meta_query', $meta_query_args );
+	}
+}
+
+add_action( 'pre_get_posts', 'real_search_custom_type' );
 
 
 
