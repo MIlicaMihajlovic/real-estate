@@ -13,12 +13,12 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-    <?php
+	<?php
 	if ( is_sticky() && is_home() ) :
 		echo twentyseventeen_get_svg( array( 'icon' => 'thumb-tack' ) );
 	endif;
 	?>
-	<header class="entry-header">
+    <header class="entry-header">
 		<?php
 		if ( 'post' === get_post_type() ) {
 			echo '<div class="entry-meta">';
@@ -39,63 +39,64 @@
 			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 		}
 		?>
-	</header><!-- .entry-header -->
+    </header><!-- .entry-header -->
 
 	<?php if ( '' !== get_the_post_thumbnail() && ! is_single() ) : ?>
-		<div class="post-thumbnail">
-			<a href="<?php the_permalink(); ?>">
+        <div class="post-thumbnail">
+            <a href="<?php the_permalink(); ?>">
 				<?php the_post_thumbnail( 'twentyseventeen-featured-image' ); ?>
-			</a>
-		</div><!-- .post-thumbnail -->
+            </a>
+        </div><!-- .post-thumbnail -->
 	<?php endif; ?>
 
-	<div class="entry-content">
-        <?php
-        //display fields subtitle and image
-        $acf_fields = get_fields();
+    <div class="entry-content">
+		<?php
+		//display fields subtitle and image
+		$acf_fields = get_fields();
 
-        $image = $acf_fields['image']['sizes']['thumbnail'];
+		$image = $acf_fields['image']['sizes']['thumbnail'];
 
-        $subtitle = $acf_fields['subtitle'];
+		$subtitle = $acf_fields['subtitle'];
 
-        echo '<h3>'.$subtitle.'</h3>';
-        echo '<img src="' . $image . '">';
+		echo '<h3>' . $subtitle . '</h3>';
+		echo '<img src="' . $image . '">';
 
-        //display taxonomy-location and link to that taxonomy
-        $location_terms = get_the_terms($post->ID, 'location');
-        //var_dump($terms);
-        if($location_terms) {
-	        foreach($location_terms as $location_term) {
-		        $output[] = '<a class="'.$location_term->slug.'" href="'.get_term_link($location_term->slug, 'location').'">' .$location_term->name. '</a>';
+		//display taxonomy-location and link to that taxonomy
+		$location_terms = get_the_terms( $post->ID, 'location' );
+		//var_dump($terms);
+		if ( $location_terms ) {
+			foreach ( $location_terms as $location_term ) {
+				$output[] = '<a class="' . $location_term->slug . '" href="' . get_term_link( $location_term->slug, 'location' ) . '">' . $location_term->name . '</a>';
 
-	        }
-	        echo '</br>';
-	        echo join(',', $output);
-        }
+			}
+			echo '</br>';
+			echo join( ',', $output );
+		}
 
-        //display taxonomy-type and link to that taxonomy
-        $type_terms = get_the_terms($post->ID, 'type');
-        if($type_terms) {
-	        foreach($type_terms as $type_term) {
-		        $out[] = '<a class="'.$type_term->slug.'" href="'.get_term_link($type_term->slug, 'type').'">' .$type_term->name. '</a>';
+		//display taxonomy-type and link to that taxonomy
+		$type_terms = get_the_terms( $post->ID, 'type' );
+		if ( $type_terms ) {
+			foreach ( $type_terms as $type_term ) {
+				$out[] = '<a class="' . $type_term->slug . '" href="' . get_term_link( $type_term->slug, 'type' ) . '">' . $type_term->name . '</a>';
 
-	        }
-	        echo '</br>';
-	        echo join(',', $out);
-        }
-        ?>
+			}
+			echo '</br>';
+			echo join( ',', $out );
+		}
 
-        </br>
-        <!-- Adding form for editing post-->
-        <p>Edit your post:
+		//if current user author of post or has capability to update_core display form
+		if ( get_current_user_id() == $post->post_author || current_user_can( 'update_core' ) ) {
+			?>
 
-            <?php
-                the_field('my_custom_fields');
-            ?> </p>
+            </br>
+            <!-- Adding form for editing post-->
+            <p>Edit your post:</p>
 
-		<?php acf_form(array (
-		        'post_title' => true
-        ));
+			<?php
+			acf_form( array(
+				'post_title' => true
+			) );
+		}
 
 
 		/* translators: %s: Name of current post */
@@ -115,7 +116,7 @@
 			)
 		);
 		?>
-	</div><!-- .entry-content -->
+    </div><!-- .entry-content -->
 
 	<?php
 	if ( is_single() ) {

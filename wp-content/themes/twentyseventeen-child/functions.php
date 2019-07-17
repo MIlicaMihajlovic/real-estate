@@ -148,6 +148,16 @@ function create_real_estate_taxonomies() {
         register_taxonomy( 'type', 'real_estate', $args );
     }
 
+	//Check if current has capability
+	function all_acf_prepare_field($field) {
+		if($field['name'] == 'title' && $field['name'] == 'subtitle' && $field['name'] == 'image' ) {
+			return false;
+		}
+		return $field;
+	}
+
+	add_filter('acf/prepare_field', 'all_acf_prepare_field');
+
 	//if the singular post display
     function real_add_acf_form_headers() {
 		if ( is_singular( 'real_estate' ) ) {
@@ -165,5 +175,11 @@ function create_real_estate_taxonomies() {
 	function my_acf_prepare_field($field) {
 		return false;
 	}
+
+
+
+
+
+
 
 
