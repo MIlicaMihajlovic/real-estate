@@ -186,31 +186,15 @@ function my_acf_prepare_field( $field ) {
 
 //search only custom post type Real Estate
 function real_search_custom_type( $query ) {
-	//var_dump($query);
-	if ( $query->is_search ) {
 
-//		$s = $query->get( 's' );
+	if ( $query->is_search ) {
 
 		$query->set( 'post_type', 'real_estate' );
 
-//		$meta_query_args = array(
-//			[
-//				'key'      => 'sub_title',
-//				'value'    => $s,
-//				'compare'  => 'LIKE'
-//			]
-//		);
-//
-//
-//		$query->set( 'meta_query', $meta_query_args );
 	}
 }
 
 add_action( 'pre_get_posts', 'real_search_custom_type' );
-
-
-
-
 
 
 
