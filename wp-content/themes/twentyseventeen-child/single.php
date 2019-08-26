@@ -10,7 +10,7 @@
 					the_post();
 
 				    //change path to content, with get_post_type takes type of post and with template parts is not good in practice
-					get_template_part( 'template-parts/post/content', get_post_type() );
+					get_template_part( 'template-parts/post/content', 'news_test' );
 
 					// If comments are open or we have at least one comment, load up the comment template.
 					if ( comments_open() || get_comments_number() ) :
